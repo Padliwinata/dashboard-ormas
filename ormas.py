@@ -1,3 +1,5 @@
+from collections import Counter
+
 import streamlit as st
 import pandas as pd
 from wordcloud import WordCloud
@@ -37,6 +39,20 @@ headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(senti
 if specific:
     headlines_df = headlines_df[headlines_df['ormas_mentioned'].isin(ormas)]
 
+
+st.header('Tabel')
+st.dataframe(headlines_df)
+
+st.header('Wordcount')
+wordcount_total = ' '.join(headlines_df['headline']).split()
+
+wordcount_total_counter = Counter(wordcount_total)
+
+wordcount_df = pd.DataFrame(wordcount_total_counter.items(), columns=['keyword', 'jumlah']).sort_values(by='jumlah', ascending=False).reset_index(drop=True)
+st.dataframe(wordcount_df)
+
+st.header('Wordcloud')
+
 wordcloud_title = st.text_input("Wordcloud Title", "Wordcloud Ormas")
 headlines = ' '.join(headlines_df['headline'])
 if len(headlines.split()) == 0:
@@ -49,6 +65,8 @@ plt.axis('off')
 plt.title(wordcloud_title)
 st.pyplot(plt)
 
+
+st.header('Pie Chart')
 
 sentiment_counts = headlines_df['sentiment'].value_counts()
 
