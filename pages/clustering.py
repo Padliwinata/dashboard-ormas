@@ -70,6 +70,6 @@ st.pyplot(fig)
 
 headlines_df['label'] = labels
 
-st.dataframe(headlines_df[headlines_df['label'].isin(label)][['date', 'headline', 'ormas', 'sentiment']])
+st.dataframe(headlines_df[headlines_df['label'].isin(label)][['date', 'headline', 'ormas', 'sentiment', 'label']])
 
 
