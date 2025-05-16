@@ -1,2 +1,6 @@
 wordcloud
 matplotlib
+sentence_transformers
+umap-learn
+sklearn
+plotly

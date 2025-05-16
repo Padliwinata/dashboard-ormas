@@ -5,7 +5,7 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('processed.csv')
+df = pd.read_csv('pages/processed.csv')
 df['date'] = pd.to_datetime(df['date'])
 df = df[(df['date'].dt.year >= 2022) & (df['date'].dt.year <= 2025)]
 
