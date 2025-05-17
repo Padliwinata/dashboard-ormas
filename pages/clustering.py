@@ -41,7 +41,8 @@ if specific:
         default=['Ormas Saja']
     )
 
-headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'].isin(sentiments))]
+# headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'].isin(sentiments))]
+headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
 
 if specific:
     headlines_df = headlines_df[headlines_df['ormas'].isin(ormas)]
