@@ -12,6 +12,10 @@ df = pd.read_csv('processed_clustered.csv')
 df['date'] = pd.to_datetime(df['date'])
 df = df[(df['date'].dt.year >= 2022) & (df['date'].dt.year <= 2025)]
 
+df_old = pd.read_csv('processed_old_modif.csv')
+df_old['date'] = pd.to_datetime(df_old['date'])
+df_old['ormas'] = df_old['ormas_mentioned']
+
 st.logo('logo.jpeg')
 
 years = st.sidebar.multiselect(
@@ -37,7 +41,7 @@ if specific:
         default=['Ormas Saja']
     )
 
-headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
+headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'].isin(sentiments))]
 
 if specific:
     headlines_df = headlines_df[headlines_df['ormas'].isin(ormas)]
@@ -69,7 +73,10 @@ ax.grid(True)
 st.pyplot(fig)
 
 headlines_df['label'] = labels
+df_old['label'] = labels
 
-st.dataframe(headlines_df[headlines_df['label'].isin(label)][['date', 'headline', 'ormas', 'sentiment', 'label']])
+for_table = headlines_df[headlines_df['label'].isin(label)].reset_index(drop=True)
+for_table.index += 1
+st.dataframe(for_table)
 
 

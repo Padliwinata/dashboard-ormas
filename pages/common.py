@@ -41,7 +41,7 @@ if specific:
 
 
 st.header('Tabel')
-st.dataframe(headlines_df)
+st.dataframe(headlines_df.reset_index(drop=True))
 
 st.header('Wordcount')
 wordcount_total = ' '.join(headlines_df['headline']).split()
