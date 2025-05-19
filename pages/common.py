@@ -34,6 +34,7 @@ if specific:
         default=['Ormas Saja']
     )
 
+
 headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
 
 if specific:
@@ -88,20 +89,35 @@ sentiment_counts.plot(
     ylabel='',  # Hide y-label
     ax=ax
 )
+existing_sentiments = [s for s in sentiments if s in sentiment_counts]
+total = sentiment_counts[existing_sentiments].sum() if existing_sentiments else 0
 
+ax.set_title(
+    f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)}, {total} berita'
+)
 
-ax.set_title(f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)}, {sentiment_counts[sentiments].sum()} berita')
+# ax.set_title(f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)}, {sentiment_counts[sentiments].sum()} berita')
 
 if specific:
-    try:
-        ax.set_title(f'Sentimen ormas: {", ".join(ormas)} pada tahun {", ".join(str(year) for year in years)}, {sentiment_counts[sentiments].sum()} berita')
-    except KeyError:
-        st.toast('Data tidak ditemukan :)')
-        ax.set_title(f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)} sejumlah {sentiment_counts[sentiments].sum()} berita')
+    existing_sentiments = [s for s in sentiments if s in sentiment_counts]
+    total = sentiment_counts[existing_sentiments].sum() if existing_sentiments else 0
+
+    ax.set_title(
+        f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)}, {total} berita'
+    )
+    # try:
+    #     ax.set_title(f'Sentimen ormas: {", ".join(ormas)} pada tahun {", ".join(str(year) for year in years)}, {sentiment_counts[sentiments].sum()} berita')
+    # except KeyError:
+    #     st.toast('Data tidak ditemukan :)')
+    #     ax.set_title(f'Sentimen semua ormas pada tahun {", ".join(str(year) for year in years)} sejumlah {sentiment_counts[sentiments].sum()} berita')
 
 ax.axis('equal')  # Make pie circular
 plt.tight_layout()
 
 # Display the pie chart in Streamlit
 st.pyplot(fig)
+
+missing_sentiments = [s for s in sentiments if s not in sentiment_counts]
+if len(missing_sentiments) != 0:
+    st.text(f"Sentimen {', '.join(missing_sentiments)} tidak ditemukan")
 
