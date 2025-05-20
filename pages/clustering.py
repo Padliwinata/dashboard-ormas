@@ -12,9 +12,10 @@ df = pd.read_csv('processed_clustered.csv')
 df['date'] = pd.to_datetime(df['date'])
 df = df[(df['date'].dt.year >= 2022) & (df['date'].dt.year <= 2025)]
 
-df_old = pd.read_csv('processed_old_modif.csv')
+df_old = pd.read_csv('processed_revisi.csv')
 df_old['date'] = pd.to_datetime(df_old['date'])
-df_old['ormas'] = df_old['ormas_mentioned']
+df_old = df_old[(df_old['date'].dt.year >= 2022) & (df_old['date'].dt.year <= 2025)]
+# df_old['ormas'] = df_old['ormas_mentioned']
 
 st.logo('logo.jpeg')
 
@@ -41,8 +42,8 @@ if specific:
         default=['Ormas Saja']
     )
 
-# headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'].isin(sentiments))]
-headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
+headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'].isin(sentiments))]
+# headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
 
 if specific:
     headlines_df = headlines_df[headlines_df['ormas'].isin(ormas)]
