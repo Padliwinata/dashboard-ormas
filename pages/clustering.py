@@ -46,7 +46,7 @@ headlines_df = df_old[(df_old['date'].dt.year.isin(years)) & (df_old['sentiment'
 # headlines_df = df[(df['date'].dt.year.isin(years)) & (df['sentiment'].isin(sentiments))]
 
 if specific:
-    headlines_df = headlines_df[headlines_df['ormas'].isin(ormas)]
+    headlines_df = headlines_df[headlines_df['ormas_mentioned'].isin(ormas)]
 
 label = st.sidebar.multiselect('Label berita', options=[0, 1, 2, 3, 4], default=[0])
 
